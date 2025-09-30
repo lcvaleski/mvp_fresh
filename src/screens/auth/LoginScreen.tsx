@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Platform, TouchableOpacity, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Platform, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '../../navigation/types';
 import { Button } from '../../design-system/components/Button';
-import { EnhancedInput } from '../../components/EnhancedInput';
-import { Logo } from '../../design-system/components/Logo';
 import { colors, typography, spacing } from '../../design-system/theme';
 
 const validateEmail = (email: string) => {
@@ -66,38 +64,30 @@ export const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.keyboardView}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <ScrollView 
-        style={styles.scrollView}
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <Logo />
+    <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
         
         <View style={styles.formFields}>
-          <EnhancedInput
-            label="Email"
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
             value={email}
             onChangeText={setEmail}
-            autoCapitalize="none"
             keyboardType="email-address"
-            editable={!loading}
-            showClearButton
-            animateLabel
+            placeholder="Enter your email"
+            placeholderTextColor="#999"
+            autoCapitalize="none"
+            autoCorrect={false}
           />
-          <EnhancedInput
-            label="Password"
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
             value={password}
             onChangeText={setPassword}
             secureTextEntry={true}
-            editable={!loading}
-            animateLabel
+            placeholder="Enter your password"
+            placeholderTextColor="#999"
           />
           <TouchableOpacity
             onPress={() => navigation.navigate('ForgotPassword')}
@@ -156,21 +146,14 @@ export const LoginScreen = () => {
             Don't have an account? <Text style={styles.signUpTextBold}>Sign Up</Text>
           </Text>
         </TouchableOpacity>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  keyboardView: {
-    flex: 1,
-    backgroundColor: colors.primary.nocturne,
-  },
-  scrollView: {
-    flex: 1,
-  },
   container: {
-    flexGrow: 1,
+    flex: 1,
+    backgroundColor: colors.primary.white,
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.xl * 2,
     justifyContent: 'center',
@@ -182,14 +165,14 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl * 2,
     marginTop: spacing.xl,
     textAlign: 'center',
-    color: colors.primary.white,
+    color: colors.primary.black,
   },
   forgotPasswordLink: {
     alignSelf: 'flex-end',
     marginBottom: spacing.md,
   },
   forgotPasswordText: {
-    color: colors.primary.white,
+    color: colors.primary.black,
     fontSize: typography.fontSize.sm,
     textDecorationLine: 'underline',
     fontFamily: typography.fontFamily.medium,
@@ -199,17 +182,17 @@ const styles = StyleSheet.create({
     marginTop: spacing.lg,
   },
   signUpText: {
-    color: colors.primary.white,
+    color: colors.primary.black,
     fontSize: typography.fontSize.md,
     textAlign: 'center',
   },
   signUpTextBold: {
-    color: colors.primary.white,
+    color: colors.primary.black,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
   },
   errorText: {
-    color: colors.secondary.coral,
+    color: colors.semantic.error,
     marginBottom: spacing.sm,
     textAlign: 'center',
     fontFamily: typography.fontFamily.regular,
@@ -223,11 +206,11 @@ const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: colors.neutral.gray300,
   },
   dividerText: {
     marginHorizontal: spacing.md,
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: colors.neutral.gray600,
     fontFamily: typography.fontFamily.medium,
     fontSize: typography.fontSize.sm,
   },
@@ -243,17 +226,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: colors.neutral.gray100,
     borderRadius: 12,
     paddingVertical: spacing.md,
     width: '100%',
     marginBottom: spacing.md,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: colors.border.light,
   },
   socialButtonText: {
-    color: colors.primary.white,
+    color: colors.primary.black,
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.bold,
+  },
+  label: {
+    fontSize: typography.fontSize.sm,
+    color: colors.primary.black,
+    marginBottom: spacing.xs,
+    fontFamily: typography.fontFamily.medium,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border.light,
+    borderRadius: 12,
+    padding: spacing.md,
+    fontSize: typography.fontSize.md,
+    color: colors.primary.black,
+    backgroundColor: colors.primary.white,
+    marginBottom: spacing.md,
   },
 });

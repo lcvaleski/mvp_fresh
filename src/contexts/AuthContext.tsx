@@ -30,12 +30,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Configure Google Sign-In (replace with your own webClientId)
+    // Configure Google Sign-In
     GoogleSignin.configure({
-      webClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com',
+      webClientId: '560802312497-o8cumlo0nrvnnpnj79gih6q3e3badtf4.apps.googleusercontent.com',
       offlineAccess: true,
     });
 
+    // Set up auth state listener
     const unsubscribe = auth().onAuthStateChanged(async (_user) => {
       setUser(_user);
       setLoading(false);
@@ -55,9 +56,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signUp = async (email: string, password: string) => {
     try {
-      await auth().createUserWithEmailAndPassword(email, password);
-    } catch (error) {
-      console.error('Sign up error:', error);
+      console.log('[AuthContext] Starting signUp with email:', email);
+      console.log('[AuthContext] Password length:', password?.length);
+
+      if (!email || !password) {
+        throw new Error('Email and password are required');
+      }
+
+      const authInstance = auth();
+      console.log('[AuthContext] Auth instance:', authInstance ? 'exists' : 'undefined');
+
+      const result = await authInstance.createUserWithEmailAndPassword(email, password);
+      console.log('[AuthContext] Sign up successful, user:', result?.user?.uid);
+    } catch (error: any) {
+      console.error('[AuthContext] Sign up error:', error);
+      console.error('[AuthContext] Error code:', error?.code);
+      console.error('[AuthContext] Error message:', error?.message);
+      console.error('[AuthContext] Full error object:', JSON.stringify(error, null, 2));
       throw error;
     }
   };

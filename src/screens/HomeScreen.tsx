@@ -18,9 +18,6 @@ export const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Welcome!</Text>
-        <Text style={styles.subtitle}>You are successfully authenticated</Text>
-        
         {user?.email && (
           <View style={styles.userInfo}>
             <Text style={styles.userInfoLabel}>Email:</Text>
@@ -45,28 +42,13 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary.nocturne,
+    backgroundColor: colors.primary.white,
   },
   content: {
     flex: 1,
     padding: spacing.xl,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  title: {
-    fontSize: typography.fontSize['3xl'],
-    fontFamily: typography.fontFamily.bold,
-    color: colors.primary.white,
-    marginBottom: spacing.md,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: typography.fontSize.lg,
-    fontFamily: typography.fontFamily.regular,
-    color: colors.primary.white,
-    textAlign: 'center',
-    marginBottom: spacing.xl,
-    opacity: 0.8,
   },
   userInfo: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -78,14 +60,14 @@ const styles = StyleSheet.create({
   userInfoLabel: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.primary.white,
+    color: colors.primary.black,
     opacity: 0.7,
     marginBottom: spacing.xs,
   },
   userInfoText: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.regular,
-    color: colors.primary.white,
+    color: colors.primary.black,
   },
   actions: {
     width: '100%',

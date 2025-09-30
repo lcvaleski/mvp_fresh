@@ -1,24 +1,13 @@
 export const colors = {
-  // Primary colors
+  // Primary colors - Black & White only
   primary: {
-    nocturne: '#2A1F14',
-    eclipse: '#57494F',
-    blueberry: '#7C6C63',
-    orchid: '#A96A7D',
+    black: '#000000',
     white: '#FFFFFF',
   },
-  // Secondary colors
-  secondary: {
-    fuschia: '#C47878',
-    periwinkle: '#A0B2C8',
-    coral: '#B3583E',
-    lavender: '#C6B0B8',
-    buttercream: '#F1DDBD',
-  },
-  // Neutral colors
+  // Grayscale for subtle variations
   neutral: {
     white: '#FFFFFF',
-    black: '#000000',
+    gray50: '#FAFAFA',
     gray100: '#F5F5F5',
     gray200: '#EEEEEE',
     gray300: '#E0E0E0',
@@ -28,19 +17,26 @@ export const colors = {
     gray700: '#616161',
     gray800: '#424242',
     gray900: '#212121',
+    black: '#000000',
   },
-  // Semantic colors
+  // Semantic colors - Using grayscale
   semantic: {
-    success: '#4CAF50',
-    warning: '#FFC107',
-    error: '#F44336',
-    info: '#2196F3',
+    success: '#000000',
+    warning: '#424242',
+    error: '#000000',
+    info: '#616161',
   },
   // Background colors
   background: {
     default: '#FFFFFF',
-    paper: '#F5F5F5',
-    dark: '#121212',
+    paper: '#FAFAFA',
+    dark: '#000000',
+  },
+  // Border colors
+  border: {
+    light: '#E0E0E0',
+    medium: '#BDBDBD',
+    dark: '#000000',
   },
 } as const;
 

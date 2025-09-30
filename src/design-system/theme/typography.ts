@@ -3,16 +3,16 @@ import { Platform } from 'react-native';
 export const typography = {
   fontFamily: {
     regular: Platform.select({
-      ios: 'System',
-      android: 'Roboto',
+      ios: 'SF Pro Display',
+      android: 'System',
     }),
     medium: Platform.select({
-      ios: 'System',
-      android: 'Roboto-Medium',
+      ios: 'SF Pro Display',
+      android: 'System',
     }),
     bold: Platform.select({
-      ios: 'System',
-      android: 'Roboto-Bold',
+      ios: 'SF Pro Display',
+      android: 'System',
     }),
   },
   fontSize: {

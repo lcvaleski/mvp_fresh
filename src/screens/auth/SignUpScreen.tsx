@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, Alert, TextInput } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../../design-system/components/Button';
-import { EnhancedInput } from '../../components/EnhancedInput';
-import { Logo } from '../../design-system/components/Logo';
 import { colors, typography, spacing } from '../../design-system/theme';
 
 const validateEmail = (email: string) => {
@@ -28,13 +26,22 @@ export const SignUpScreen = ({ navigation }: any) => {
     password === confirmPassword;
 
   const handleSignUp = async () => {
+    console.log('[SignUpScreen] Starting handleSignUp');
+    console.log('[SignUpScreen] Email:', email);
+    console.log('[SignUpScreen] Password length:', password?.length);
+
     setError('');
     setLoading(true);
     try {
       await signUp(email, password);
     } catch (err: any) {
-      setError('Sign up failed. Please try again.');
-      Alert.alert('Sign Up Error', 'Sign up failed. Please try again.');
+      console.error('[SignUpScreen] Caught error:', err);
+      console.error('[SignUpScreen] Error message:', err?.message);
+      console.error('[SignUpScreen] Error code:', err?.code);
+
+      const errorMessage = err?.message || 'Sign up failed. Please try again.';
+      setError(errorMessage);
+      Alert.alert('Sign Up Error', errorMessage);
     } finally {
       setLoading(false);
     }
@@ -67,50 +74,48 @@ export const SignUpScreen = ({ navigation }: any) => {
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.keyboardView}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <ScrollView 
-        style={styles.scrollView}
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <Logo />
+    <View style={styles.container}>
         <Text style={styles.title}>Create Account</Text>
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
         
         <View style={styles.formFields}>
-          <EnhancedInput
-            label="Email"
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
             value={email}
             onChangeText={setEmail}
-            autoCapitalize="none"
             keyboardType="email-address"
+            placeholder="Enter your email"
+            placeholderTextColor="#999"
+            autoCapitalize="none"
+            autoCorrect={false}
             editable={!loading}
-            showClearButton
-            animateLabel
-            error={email && !validateEmail(email) ? 'Please enter a valid email' : ''}
           />
-          <EnhancedInput
-            label="Password"
+          {email && !validateEmail(email) && <Text style={styles.errorText}>Please enter a valid email</Text>}
+
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
             value={password}
             onChangeText={setPassword}
             secureTextEntry={true}
+            placeholder="Enter your password"
+            placeholderTextColor="#999"
             editable={!loading}
-            animateLabel
-            error={password && password.length < 6 ? 'Password must be at least 6 characters' : ''}
           />
-          <EnhancedInput
-            label="Confirm Password"
+          {password && password.length < 6 && <Text style={styles.errorText}>Password must be at least 6 characters</Text>}
+
+          <Text style={styles.label}>Confirm Password</Text>
+          <TextInput
+            style={styles.input}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry={true}
+            placeholder="Confirm your password"
+            placeholderTextColor="#999"
             editable={!loading}
-            animateLabel
-            error={confirmPassword && password !== confirmPassword ? 'Passwords do not match' : ''}
           />
+          {confirmPassword && password !== confirmPassword && <Text style={styles.errorText}>Passwords do not match</Text>}
         </View>
         
         <Button
@@ -157,21 +162,14 @@ export const SignUpScreen = ({ navigation }: any) => {
         >
           <Text style={styles.loginText}>Already have an account? <Text style={styles.loginTextBold}>Login</Text></Text>
         </TouchableOpacity>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  keyboardView: {
-    flex: 1,
-    backgroundColor: colors.primary.nocturne,
-  },
-  scrollView: {
-    flex: 1,
-  },
   container: {
-    flexGrow: 1,
+    flex: 1,
+    backgroundColor: colors.primary.white,
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.xl * 2,
     justifyContent: 'center',
@@ -183,24 +181,24 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl * 2,
     marginTop: spacing.xl,
     textAlign: 'center',
-    color: colors.primary.white,
+    color: colors.primary.black,
   },
   loginLink: {
     alignItems: 'center',
     marginTop: spacing.lg,
   },
   loginText: {
-    color: colors.primary.white,
+    color: colors.primary.black,
     fontSize: typography.fontSize.md,
     textAlign: 'center',
   },
   loginTextBold: {
-    color: colors.primary.white,
+    color: colors.primary.black,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
   },
   errorText: {
-    color: colors.secondary.coral,
+    color: colors.semantic.error,
     marginBottom: spacing.sm,
     textAlign: 'center',
     fontFamily: typography.fontFamily.regular,
@@ -218,11 +216,11 @@ const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
   dividerText: {
     marginHorizontal: spacing.md,
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: 'rgba(0, 0, 0, 0.6)',
     fontFamily: typography.fontFamily.medium,
     fontSize: typography.fontSize.sm,
   },
@@ -235,17 +233,34 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     borderRadius: 12,
     paddingVertical: spacing.md,
     width: '100%',
     marginBottom: spacing.md,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: 'rgba(0, 0, 0, 0.15)',
   },
   socialButtonText: {
-    color: colors.primary.white,
+    color: colors.primary.black,
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.bold,
+  },
+  label: {
+    fontSize: typography.fontSize.sm,
+    color: colors.primary.black,
+    marginBottom: spacing.xs,
+    fontFamily: typography.fontFamily.medium,
+    marginTop: spacing.sm,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border.light,
+    borderRadius: 12,
+    padding: spacing.md,
+    fontSize: typography.fontSize.md,
+    color: colors.primary.black,
+    backgroundColor: colors.primary.white,
+    marginBottom: spacing.xs,
   },
 });

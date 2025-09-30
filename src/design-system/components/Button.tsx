@@ -36,18 +36,21 @@ export const Button: React.FC<ButtonProps> = ({
   icon,
 }) => {
   const getBackgroundColor = () => {
-    if (disabled) return colors.primary.blueberry;
+    if (disabled) return colors.neutral.gray400;
     switch (variant) {
       case 'primary':
-        return colors.primary.orchid;
+        return colors.primary.black;
       case 'secondary':
-        return colors.secondary.fuschia;
+        return colors.primary.white;
       default:
-        return colors.primary.orchid;
+        return colors.primary.black;
     }
   };
 
   const getTextColor = () => {
+    if (variant === 'secondary') {
+      return colors.primary.black;
+    }
     return colors.primary.white;
   };
 
@@ -71,6 +74,8 @@ export const Button: React.FC<ButtonProps> = ({
         {
           backgroundColor: getBackgroundColor(),
           paddingVertical: getPadding(),
+          borderWidth: variant === 'secondary' ? 1 : 0,
+          borderColor: variant === 'secondary' ? colors.primary.black : undefined,
         },
         style,
       ]}

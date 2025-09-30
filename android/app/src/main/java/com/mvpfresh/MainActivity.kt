@@ -1,4 +1,4 @@
-package com.mvp_fresh
+package com.mvpfresh
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

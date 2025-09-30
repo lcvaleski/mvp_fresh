@@ -49,7 +49,6 @@ export const ForgotPasswordScreen = ({ navigation }: any) => {
           keyboardType="email-address"
           editable={!loading}
           showClearButton
-          animateLabel
         />
         <Button
           title="Send Reset Link"
@@ -74,7 +73,7 @@ export const ForgotPasswordScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary.nocturne,
+    backgroundColor: colors.primary.white,
   },
   content: {
     flex: 1,
@@ -86,11 +85,11 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontFamily.bold,
     marginBottom: spacing.md,
     textAlign: 'center',
-    color: colors.primary.white,
+    color: colors.primary.black,
   },
   subtitle: {
     fontSize: typography.fontSize.md,
-    color: colors.primary.white,
+    color: colors.primary.black,
     textAlign: 'center',
     marginBottom: spacing.xl,
     fontFamily: typography.fontFamily.regular,
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   backLinkText: {
-    color: colors.primary.white,
+    color: colors.primary.black,
     fontSize: typography.fontSize.sm,
     textDecorationLine: 'underline',
     fontFamily: typography.fontFamily.medium,
